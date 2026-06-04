@@ -1,0 +1,117 @@
+🌐 User Journey
+A user types www.foobar.com in their browser.
+
+The browser asks the DNS system to resolve www.foobar.com into an IP address.
+
+The DNS record points www to 8.8.8.8, the IP of our single server.
+
+The browser connects to that server over TCP/IP using HTTPS for secure communication.
+
+The server responds with the website content.
+
+🖥️ Infrastructure Components
+Server → A physical or virtual machine hosting everything.
+
+Domain name → foobar.com with a DNS record (www is a CNAME or A record) pointing to 8.8.8.8.
+
+Web server (Nginx) → Handles HTTP/HTTPS requests, serves static files, and forwards dynamic requests to the application server.
+
+Application server → Runs the business logic (e.g., PHP, Node.js, Python).
+
+Application files (codebase) → The actual source code of the website.
+
+Database (MySQL) → Stores and organizes persistent data (users, posts, transactions).
+
+📌 Roles Explained
+Domain name → Human‑friendly address that maps to the server’s IP.
+
+DNS record www → Typically an A record pointing directly to 8.8.8.8.
+
+Web server (Nginx) → Manages incoming HTTP requests, serves static content, and proxies dynamic requests.
+
+Application server → Executes the codebase, generates dynamic responses.
+
+Database (MySQL) → Provides structured storage and query capabilities.
+
+Communication protocol → The server uses TCP/IP with HTTPS to securely deliver content to the user’s browser.
+
+⚠️ Issues with This Infrastructure
+SPOF (Single Point of Failure) → If the server goes down, the entire website is unavailable.
+
+Downtime during maintenance → Restarting Nginx or deploying new code interrupts service.
+
+No scalability → One server cannot handle heavy traffic; performance degrades quickly.
+
+📝 Whiteboard Sketch (conceptual)
+Imagine a box labeled Server (8.8.8.8). Inside it:
+
+Nginx (web server) at the front.
+
+Application server behind it, connected to:
+
+Codebase (files) and MySQL database.
+Outside:
+
+DNS pointing www.foobar.com → 8.8.8.8.
+
+User browser connecting via HTTPS.
+
+Alright Joshua, let’s design that one‑server web infrastructure step by step, as if we were sketching it on a whiteboard.
+
+🌐 User Journey
+A user types www.foobar.com in their browser.
+
+The browser asks the DNS system to resolve www.foobar.com into an IP address.
+
+The DNS record points www to 8.8.8.8, the IP of our single server.
+
+The browser connects to that server over TCP/IP using HTTPS for secure communication.
+
+The server responds with the website content.
+
+🖥️ Infrastructure Components
+Server → A physical or virtual machine hosting everything.
+
+Domain name → foobar.com with a DNS record (www is a CNAME or A record) pointing to 8.8.8.8.
+
+Web server (Nginx) → Handles HTTP/HTTPS requests, serves static files, and forwards dynamic requests to the application server.
+
+Application server → Runs the business logic (e.g., PHP, Node.js, Python).
+
+Application files (codebase) → The actual source code of the website.
+
+Database (MySQL) → Stores and organizes persistent data (users, posts, transactions).
+
+📌 Roles Explained
+Domain name → Human‑friendly address that maps to the server’s IP.
+
+DNS record www → Typically an A record pointing directly to 8.8.8.8.
+
+Web server (Nginx) → Manages incoming HTTP requests, serves static content, and proxies dynamic requests.
+
+Application server → Executes the codebase, generates dynamic responses.
+
+Database (MySQL) → Provides structured storage and query capabilities.
+
+Communication protocol → The server uses TCP/IP with HTTPS to securely deliver content to the user’s browser.
+
+⚠️ Issues with This Infrastructure
+SPOF (Single Point of Failure) → If the server goes down, the entire website is unavailable.
+
+Downtime during maintenance → Restarting Nginx or deploying new code interrupts service.
+
+No scalability → One server cannot handle heavy traffic; performance degrades quickly.
+
+📝 Whiteboard Sketch (conceptual)
+Imagine a box labeled Server (8.8.8.8). Inside it:
+
+Nginx (web server) at the front.
+
+Application server behind it, connected to:
+
+Codebase (files) and MySQL database.
+Outside:
+
+DNS pointing www.foobar.com → 8.8.8.8.
+
+User browser connecting via HTTPS.
