@@ -1,0 +1,151 @@
+User Journey
+A user types www.foobar.com in their browser.
+
+The DNS system resolves www.foobar.com to the IP of the load balancer.
+
+The load balancer (HAProxy) distributes traffic between two backend servers.
+
+Each backend server runs:
+
+Web server (Nginx)
+
+Application server (executes the codebase)
+
+Application files (codebase)
+
+Database (MySQL) (configured in a Primary‑Replica cluster).
+
+The user receives the website content securely over TCP/IP with HTTPS.
+
+🖥️ Infrastructure Components and Why They’re Added
+Load balancer (HAProxy) → Added to distribute traffic between servers, prevent overload, and increase availability.
+
+Two servers → Added for redundancy and scalability; if one fails, the other continues serving requests.
+
+Web server (Nginx) → Handles HTTP requests, serves static files, and forwards dynamic requests.
+
+Application server → Runs business logic and generates dynamic responses.
+
+Codebase → The actual source code of the website.
+
+Database (MySQL) → Stores persistent data, configured in Primary‑Replica mode for reliability.
+
+⚙️ Load Balancer Specifics
+Distribution algorithm → Commonly Round Robin: requests are sent alternately to each server, balancing load evenly.
+
+Active‑Active setup → Both servers are actively serving traffic at the same time.
+
+Active‑Passive setup → One server handles traffic, the other stays idle until the first fails.
+
+In our design, we use Active‑Active for better resource utilization and redundancy.
+
+📊 Database Primary‑Replica Cluster
+Primary node → Handles all write operations (insert, update, delete).
+
+Replica node(s) → Handle read operations (select queries), synchronized from the Primary.
+
+Difference for the application →
+
+Writes go to the Primary.
+
+Reads can be distributed to Replicas, improving performance and reducing load on the Primary.
+
+⚠️ Issues with This Infrastructure
+SPOF (Single Point of Failure) → The load balancer itself is a SPOF; if it fails, the whole system is unreachable.
+
+Security issues → No firewall, no HTTPS termination at the load balancer, leaving traffic vulnerable.
+
+No monitoring → Without monitoring tools, failures or performance issues may go unnoticed.
+
+📝 Whiteboard Sketch (conceptual)
+Imagine the diagram:
+
+DNS → Load Balancer (HAProxy)
+
+Load balancer distributes traffic to Server A and Server B.
+
+Each server contains:
+
+Nginx (web server)
+
+Application server + codebase
+
+MySQL database (Primary on one, Replica on the other).
+
+User browser connects via HTTPS over TCP/IP.
+
+User Journey
+A user types www.foobar.com in their browser.
+
+The DNS system resolves www.foobar.com to the IP of the load balancer.
+
+The load balancer (HAProxy) distributes traffic between two backend servers.
+
+Each backend server runs:
+
+Web server (Nginx)
+
+Application server (executes the codebase)
+
+Application files (codebase)
+
+Database (MySQL) (configured in a Primary‑Replica cluster).
+
+The user receives the website content securely over TCP/IP with HTTPS.
+
+🖥️ Infrastructure Components and Why They’re Added
+Load balancer (HAProxy) → Added to distribute traffic between servers, prevent overload, and increase availability.
+
+Two servers → Added for redundancy and scalability; if one fails, the other continues serving requests.
+
+Web server (Nginx) → Handles HTTP requests, serves static files, and forwards dynamic requests.
+
+Application server → Runs business logic and generates dynamic responses.
+
+Codebase → The actual source code of the website.
+
+Database (MySQL) → Stores persistent data, configured in Primary‑Replica mode for reliability.
+
+⚙️ Load Balancer Specifics
+Distribution algorithm → Commonly Round Robin: requests are sent alternately to each server, balancing load evenly.
+
+Active‑Active setup → Both servers are actively serving traffic at the same time.
+
+Active‑Passive setup → One server handles traffic, the other stays idle until the first fails.
+
+In our design, we use Active‑Active for better resource utilization and redundancy.
+
+📊 Database Primary‑Replica Cluster
+Primary node → Handles all write operations (insert, update, delete).
+
+Replica node(s) → Handle read operations (select queries), synchronized from the Primary.
+
+Difference for the application →
+
+Writes go to the Primary.
+
+Reads can be distributed to Replicas, improving performance and reducing load on the Primary.
+
+⚠️ Issues with This Infrastructure
+SPOF (Single Point of Failure) → The load balancer itself is a SPOF; if it fails, the whole system is unreachable.
+
+Security issues → No firewall, no HTTPS termination at the load balancer, leaving traffic vulnerable.
+
+No monitoring → Without monitoring tools, failures or performance issues may go unnoticed.
+
+📝 Whiteboard Sketch (conceptual)
+Imagine the diagram:
+
+DNS → Load Balancer (HAProxy)
+
+Load balancer distributes traffic to Server A and Server B.
+
+Each server contains:
+
+Nginx (web server)
+
+Application server + codebase
+
+MySQL database (Primary on one, Replica on the other).
+
+User browser connects via HTTPS over TCP/IP.
