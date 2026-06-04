@@ -1,0 +1,54 @@
+User Journey
+A user types www.foobar.com in their browser.
+
+The DNS system resolves www.foobar.com to the IP of the HAProxy load balancer cluster.
+
+The load balancer distributes traffic across the backend servers.
+
+Each backend server is specialized: one runs the web server (Nginx), one runs the application server, and one runs the database (MySQL).
+
+The user receives the website content securely over TCP/IP with HTTPS.
+
+🖥️ Additional Elements and Why They’re Added
+1 extra server → Added to split responsibilities. Instead of all components running on one machine, each server handles a specific role (web, app, or database). This improves performance and makes scaling easier.
+
+HAProxy load balancer cluster → Added for high availability. Two HAProxy instances work together so if one fails, the other continues distributing traffic. This removes the load balancer as a single point of failure.
+
+Split components (web, app, DB) → Added to separate concerns:
+
+Web server (Nginx) → Handles static content and HTTP requests.
+
+Application server → Runs the business logic and dynamic code.
+
+Database (MySQL) → Stores and organizes persistent data.
+
+📌 Roles Explained
+Web server (Nginx) → Manages incoming requests, serves static files, and forwards dynamic requests to the application server.
+
+Application server → Executes the codebase, processes logic, and generates dynamic responses.
+
+Database (MySQL) → Provides structured storage and query capabilities.
+
+Load balancer cluster (HAProxy) → Distributes traffic using algorithms like Round Robin or Least Connections, ensuring balanced load and redundancy.
+
+⚠️ Issues with This Infrastructure
+SPOF reduced but not eliminated → The HAProxy cluster mitigates load balancer failure, but the database remains a single point of failure if only one instance accepts writes.
+
+Complexity → Splitting components requires careful configuration and monitoring.
+
+Scaling limits → While easier to scale than all‑in‑one servers, each tier must be scaled independently (e.g., adding more app servers or database replicas).
+
+📝 Whiteboard Sketch (conceptual)
+Visualize:
+
+DNS → HAProxy cluster (two load balancers working together)
+
+Load balancer distributes traffic to:
+
+Server A (Web server: Nginx)
+
+Server B (Application server + codebase)
+
+Server C (Database: MySQL)
+
+User browser connects via HTTPS over TCP/IP.
