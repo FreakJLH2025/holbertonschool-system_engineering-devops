@@ -1,0 +1,64 @@
+🌐 User Journey
+A user types www.foobar.com in their browser.
+
+The DNS system resolves www.foobar.com to the IP of the load balancer.
+
+The load balancer (HAProxy) terminates SSL with the SSL certificate, ensuring encrypted traffic over HTTPS.
+
+Traffic passes through firewalls before reaching backend servers.
+
+The load balancer distributes requests between Server A and Server B, each running:
+
+Web server (Nginx)
+
+Application server
+
+Codebase
+
+Database (MySQL) (Primary on one, Replica on the other).
+
+Monitoring clients collect metrics and logs from each server and send them to a centralized monitoring service (e.g., Sumo Logic).
+
+🖥️ Additional Elements and Why They’re Added
+3 Firewalls → One in front of the load balancer, and one protecting each backend server. They block unauthorized access and filter malicious traffic.
+
+SSL certificate → Ensures traffic is encrypted, protecting user data and preventing eavesdropping.
+
+3 Monitoring clients → Installed on each server to collect logs, metrics, and performance data for proactive troubleshooting.
+
+📌 Roles Explained
+Firewalls → Provide network security by filtering incoming/outgoing traffic based on rules.
+
+HTTPS → Encrypts communication, ensuring confidentiality and integrity of data between user and server.
+
+Monitoring → Tracks server health, performance, and security events.
+
+Data collection → Monitoring agents send logs (web requests, errors, CPU usage, QPS) to a centralized service for analysis.
+
+Monitoring QPS (Queries Per Second) → Configure the monitoring tool to track Nginx access logs or HAProxy stats, aggregating request counts per second.
+
+⚠️ Issues with This Infrastructure
+SSL termination at load balancer → Traffic between load balancer and backend servers may be unencrypted unless re‑encrypted, creating a potential vulnerability.
+
+Only one MySQL server accepting writes → The Primary node is a bottleneck; if it fails, no writes can occur until failover is configured.
+
+Servers with identical components → Running web, app, and database together on each server complicates scaling and resource allocation. Ideally, databases should be separated from web/app tiers.
+
+📝 Whiteboard Sketch (conceptual)
+Picture this:
+
+DNS → Firewall → Load Balancer (HAProxy + SSL termination)
+
+Load balancer distributes traffic to Server A and Server B, each behind its own firewall.
+
+Each server contains:
+
+Nginx (web server)
+
+Application server + codebase
+
+MySQL database (Primary on one, Replica on the other).
+
+Monitoring clients on all servers send logs/metrics to a centralized monitoring service.
+
+User browser connects via HTTPS over TCP/IP.
